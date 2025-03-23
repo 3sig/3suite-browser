@@ -1,9 +1,21 @@
 {
-  "name": "3suite-template",
-  "version": "0.0.0",
+  "name": "3suite-browser",
+  "version": "1.0.0",
+  "description": "simple browser for creative technology",
   "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "type": "module",
   "dependencies": {
-    "3lib-config": "github:3sig/3lib-config"
+    "3lib-config": "github:3sig/3lib-config",
+    "@electron/remote": "^2.1.2",
+    "chokidar": "^4.0.3"
+  },
+  "devDependencies": {
+    "electron": "^35.0.3"
   }
 }
