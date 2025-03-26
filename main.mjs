@@ -13,8 +13,13 @@ console.log(configArgs);
 
 let execPath = path.dirname(electron.app.getPath('exe'));
 if (electron.app.isPackaged) {
-  execPath = path.join(execPath, '../../..');
-  configArgs = configArgs.slice(1);
+  if (process.platform != 'win32') { // mac, haven't tested linux
+    execPath = path.join(execPath, '../../..');
+    configArgs = configArgs.slice(1);
+  }
+  else { // windows
+    configArgs = configArgs.slice(1);
+  }
 }
 else {
   execPath = path.join(execPath, '../../../../../..');
