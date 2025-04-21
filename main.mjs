@@ -36,7 +36,7 @@ const createWindow = () => {
   const win = new electron.BrowserWindow({
     width: config.get("windowWidth", 800),
     height: config.get("windowHeight", 600),
-    webPreferences: { nodeIntegration: true, contextIsolation: false },
+    webPreferences: { nodeIntegration: true, contextIsolation: false, webSecurity: false },
   });
   if (config.get("disableCursor", false)) {
     win.webContents.on('dom-ready', (event)=> {
