@@ -38,8 +38,8 @@ jobs:
       - name: Upload config file
         uses: actions/upload-artifact@v4
         with:
-          name: config.toml
-          path: config.toml
+          name: config.json5
+          path: config.json5
       - run: mv ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_osx-arm.zip ${{ github.event.repository.name }}_${{ github.ref_name }}_osx-arm.zip
         if: startsWith(github.ref, 'refs/tags/')
       - run: mv ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_win.zip ${{ github.event.repository.name }}_${{ github.ref_name }}_win.zip
@@ -56,4 +56,4 @@ jobs:
           files: |
             ${{ github.event.repository.name }}_${{  github.ref_name }}_osx-arm.zip
             ${{ github.event.repository.name }}_${{  github.ref_name }}_win.zip
-            config.toml
+            config.json5
