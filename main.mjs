@@ -22,7 +22,12 @@ if (electron.app.isPackaged) {
   }
 }
 else {
-  execPath = path.join(execPath, '../../../../../..');
+  if (process.platform == 'linux') { // linux
+    execPath = path.join(execPath, '../../..')
+  }
+  else { // windows, mac
+    execPath = path.join(execPath, '../../../../../..');
+  }
   configArgs = configArgs.slice(2);
 }
 console.log('Executable directory:', execPath);
@@ -55,6 +60,9 @@ electron.app.whenReady().then(() => {
   initialize();
   let win = createWindow();
 });
+
+// Add Chromium flags for better Linux compatibility without X server
+electron.app.commandLine.appendSwitch('ozone-platform-hint', 'auto');
 electron.app.on("window-all-closed", () => {
   electron.app.quit();
 });
