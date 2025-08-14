@@ -1,7 +1,7 @@
 {
   url: "https://aaron.work",
-  fullscreen: true,
-  disableCursor: true,
+  fullscreen: false,
+  disableCursor: false,
 
   windowWidth: 800,
   windowHeight: 600,
