@@ -22,9 +22,13 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npm run make -- --platform win32 --arch x64
+      - run: npm run make -- --platform linux --arch x64
+      - run: npm run make -- --platform linux --arch arm64
       - run: npm run make
       - run: mv out/make/zip/darwin/arm64/*.zip ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_osx-arm.zip
       - run: mv out/make/zip/win32/x64/*.zip ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_win.zip
+      - run: mv out/make/zip/linux/x64/*.zip ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-x64.zip
+      - run: mv out/make/zip/linux/arm64/*.zip ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-arm.zip
       - name: Upload windows-executable
         uses: actions/upload-artifact@v4
         with:
@@ -35,6 +39,16 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_osx-arm.zip
           path: ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_osx-arm.zip
+      - name: Upload linux-x64 executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-x64.zip
+          path: ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-x64.zip
+      - name: Upload linux-arm executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-arm.zip
+          path: ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-arm.zip
       - name: Upload config file
         uses: actions/upload-artifact@v4
         with:
@@ -43,6 +57,10 @@ jobs:
       - run: mv ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_osx-arm.zip ${{ github.event.repository.name }}_${{ github.ref_name }}_osx-arm.zip
         if: startsWith(github.ref, 'refs/tags/')
       - run: mv ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_win.zip ${{ github.event.repository.name }}_${{ github.ref_name }}_win.zip
+        if: startsWith(github.ref, 'refs/tags/')
+      - run: mv ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-x64.zip ${{ github.event.repository.name }}_${{ github.ref_name }}_linux-x64.zip
+        if: startsWith(github.ref, 'refs/tags/')
+      - run: mv ${{ github.event.repository.name }}_${{ env.COMMIT_SHORT_SHA }}_linux-arm.zip ${{ github.event.repository.name }}_${{ github.ref_name }}_linux-arm.zip
         if: startsWith(github.ref, 'refs/tags/')
       - run: |
           tagAnnotationMessage=$(git for-each-ref refs/tags/${{  github.ref_name }} --format='%(contents)')
@@ -56,4 +74,6 @@ jobs:
           files: |
             ${{ github.event.repository.name }}_${{  github.ref_name }}_osx-arm.zip
             ${{ github.event.repository.name }}_${{  github.ref_name }}_win.zip
+            ${{ github.event.repository.name }}_${{  github.ref_name }}_linux-x64.zip
+            ${{ github.event.repository.name }}_${{  github.ref_name }}_linux-arm.zip
             config.json5
